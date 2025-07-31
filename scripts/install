@@ -23,10 +23,10 @@ ynh_app_setting_set --key=googleai_key --value=
 anthropic_key=""
 ynh_app_setting_set --key=anthropic_key --value=
 
-sparky_key=$(ynh_string_random --length=45 | base64)
+sparky_key=$(ynh_string_random --length=32 | base64)
 ynh_app_setting_set --key=sparky_key --value=$sparky_key
 
-secret_key=$(ynh_string_random --length=45 | base64)
+secret_key=$(ynh_string_random --length=32 | base64)
 ynh_app_setting_set --key=secret_key --value=$secret_key
 
 #=================================================
