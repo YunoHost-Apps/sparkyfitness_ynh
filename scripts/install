@@ -43,7 +43,7 @@ ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir"
 
-#chown -R "$app:www-data" "$install_dir"
+chown -R "$app:www-data" "$install_dir"
 
 #=================================================
 # APP CONFIG FILES
@@ -81,6 +81,8 @@ pushd $install_dir
 	ynh_hide_warnings ynh_exec_as_app npm install vite
 	ynh_hide_warnings ynh_exec_as_app npm run build
 popd
+
+chown -R "$app:www-data" "$install_dir"
 
 #=================================================
 # SYSTEM CONFIGURATION
