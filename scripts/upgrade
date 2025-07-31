@@ -59,6 +59,7 @@ pushd $install_dir/SparkyFitnessServer
 popd
 
 pushd $install_dir
+	ynh_hide_warnings ynh_exec_as_app npm install vite
 	ynh_hide_warnings ynh_exec_as_app npm run build
 popd
 
