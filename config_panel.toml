@@ -1,0 +1,26 @@
+
+## -----------------------------------------------------------------------------
+## IMPORTANT: In accordance with YunoHost's spirit, please keep things simple and 
+## do not overwhelm the admin with tons of misunderstandable or advanced settings.
+## -----------------------------------------------------------------------------
+
+version = "1.0"
+
+
+[main]
+name.en = "Configuration options"
+name.fr = "Options de configuration"
+services = ["__APP__"]
+     
+    [main.config]
+    name.en = "General configuration"
+    name.fr = "Configuration générale"
+
+        [main.config.disable_signup]
+        ask.en = "Disabling registration?"
+        ask.fr = "Désactivation de l'enregistrement ?"
+        type = "boolean"
+        yes = "true"
+        no = "false"
+        bind = "SPARKY_FITNESS_DISABLE_SIGNUP:__INSTALL_DIR__/.env"
+

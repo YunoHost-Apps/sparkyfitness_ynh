@@ -29,6 +29,9 @@ ynh_app_setting_set --key=sparky_key --value=$sparky_key
 secret_key=$(ynh_string_random --length=32 | base64)
 ynh_app_setting_set --key=secret_key --value=$secret_key
 
+disable_signup="false"
+ynh_app_setting_set --key=disable_signup --value="$disable_signup"
+
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
