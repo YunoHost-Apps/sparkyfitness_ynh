@@ -12,7 +12,9 @@ maintainers = ["Thovi98"]
 
 [upstream]
 
-license = "PolyForm Noncommercial License 1.0.0" # Not exactly but the most relative
+
+license = "PolyForm-Noncommercial-1.0.0" # Not exactly but the most relative
+
 
 
 admindoc = "https://codewithcj.github.io/SparkyFitness"
