@@ -24,6 +24,7 @@ services = ["__APP__"]
         no = "false"
         bind = "SPARKY_FITNESS_DISABLE_SIGNUP:__INSTALL_DIR__/.env"
 
+
         [main.config.openai_key]
         ask.en = "Set OpenAI api key"
         type = "string"
@@ -38,3 +39,5 @@ services = ["__APP__"]
         ask.en = "Set Anthropic api key"
         type = "string"
         bind = "ANTHROPIC_API_KEY:__INSTALL_DIR__/.env"
+
+
