@@ -11,8 +11,7 @@ version = "0.14.9~ynh1"
 maintainers = ["Thovi98"]
 
 [upstream]
-license = "free" # you can see the available licenses identifiers list here: https://spdx.org/licenses/
-website = "https://example.com"
+license = "PolyForm Noncommercial License 1.0.0" # Not exactly but the most relative
 admindoc = "https://codewithcj.github.io/SparkyFitness"
 code = "https://github.com/CodeWithCJ/SparkyFitness"
 
