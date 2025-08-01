@@ -14,14 +14,6 @@ source /usr/share/yunohost/helpers
 admin=$(ynh_user_get_info --username=$admin --key=username)
 admin_mail=$(ynh_user_get_info --username=$admin --key=mail)
 
-openai_key=""
-ynh_app_setting_set --key=openai_key --value=
-
-googleai_key=""
-ynh_app_setting_set --key=googleai_key --value=
-
-anthropic_key=""
-ynh_app_setting_set --key=anthropic_key --value=
 
 sparky_key=$(ynh_string_random --length=32 | base64)
 ynh_app_setting_set --key=sparky_key --value=$sparky_key
@@ -31,6 +23,16 @@ ynh_app_setting_set --key=secret_key --value=$secret_key
 
 disable_signup="false"
 ynh_app_setting_set --key=disable_signup --value="$disable_signup"
+
+
+openai_key=""
+ynh_app_setting_set --key=openai_key --value=
+googleai_key=""
+ynh_app_setting_set --key=googleai_key --value=
+anthropic_key=""
+ynh_app_setting_set --key=anthropic_key --value=
+
+
 
 #=================================================
 # INSTALL DEPENDENCIES
