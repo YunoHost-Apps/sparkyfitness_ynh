@@ -74,6 +74,12 @@ pushd $install_dir
 	ynh_hide_warnings ynh_exec_as_app npm run build
 popd
 
+#Remove unneeded files
+ynh_safe_rm "$install_dir"/.npm
+ynh_safe_rm "$install_dir"/node_modules
+ynh_safe_rm "$install_dir"/docker
+ynh_safe_rm "$install_dir"/.github
+
 chown -R "$app:www-data" "$install_dir"
 
 #=================================================
