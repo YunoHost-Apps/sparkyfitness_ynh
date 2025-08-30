@@ -6,7 +6,7 @@ id = "sparkyfitness"
 name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
 
-version = "0.15.1~ynh1"
+version = "0.15.1~ynh2"
 
 maintainers = ["Thovi98"]
 
