@@ -32,15 +32,6 @@ ynh_app_setting_set --key=googleai_key --value=
 anthropic_key=""
 ynh_app_setting_set --key=anthropic_key --value=
 
-
-
-#=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_script_progression "Installing dependencies..."
-
-ynh_nodejs_install
-
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
