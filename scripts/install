@@ -4,7 +4,6 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -80,10 +79,11 @@ popd
 
 #Remove unneeded files
 ynh_safe_rm "$install_dir"/.npm
-ynh_safe_rm "$install_dir"/node_modules
 ynh_safe_rm "$install_dir"/docker
 ynh_safe_rm "$install_dir"/.github
 ynh_safe_rm "$install_dir"/SparkyFitnessMobile
+ynh_safe_rm "$install_dir"/SparkyFitnessFrontend/node_modules
+
 
 chown -R "$app:www-data" "$install_dir"
 
