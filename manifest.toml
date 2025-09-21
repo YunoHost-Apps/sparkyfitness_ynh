@@ -6,7 +6,7 @@ id = "sparkyfitness"
 name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
 
-version = "0.15.1~ynh2"
+version = "0.15.2~ynh1"
 
 maintainers = ["Thovi98"]
 
@@ -52,8 +52,8 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.15.1.tar.gz"
-    sha256 = "d1acf1b9f31eb7ef3bcfd68449fb92f79a05e53dabba01e6f4cd27d99a773a01"
+    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.15.2.tar.gz"
+    sha256 = "c10b89fdbadbd500d3f5baefa943afd742659a2645b0e1478a6f71844862c55a"
 
     autoupdate.strategy = "latest_github_release"
 
@@ -64,6 +64,12 @@ ram.runtime = "50M"
     [resources.permissions]
     main.url = "/"
     main.auth_header = false
+
+    api.url = "/api"
+    api.auth_header = false
+    api.allowed = "visitors"
+    api.show_tile = false
+    api.protected = true
 
     [resources.ports]
     main.default = 3010
