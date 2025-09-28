@@ -11,12 +11,7 @@ version = "0.15.3.1~ynh1"
 maintainers = ["Thovi98"]
 
 [upstream]
-
-
 license = "PolyForm-Noncommercial-1.0.0" # Not exactly but the most relative
-
-
-
 admindoc = "https://codewithcj.github.io/SparkyFitness"
 code = "https://github.com/CodeWithCJ/SparkyFitness"
 
@@ -74,6 +69,7 @@ ram.runtime = "50M"
     [resources.ports]
     main.default = 3010
     garmin.default = 8000
+    garmin.fixed = true #for now, until issue https://github.com/CodeWithCJ/SparkyFitness/issues/174 is fixed
 
     [resources.apt]
     packages = "postgresql, postgresql-contrib"
