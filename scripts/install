@@ -71,9 +71,9 @@ pushd $install_dir/SparkyFitnessFrontend
 popd
 
 pushd $install_dir/SparkyFitnessGarmin
-	ynh_exec_as_app python3 -m venv "$install_dir/venv"
-	ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install --upgrade pip
-	ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install --no-cache-dir -r requirements.txt
+	ynh_exec_as_app python3 -m venv "$install_dir/SparkyFitnessGarmin/venv"
+	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --upgrade pip
+	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --no-cache-dir -r requirements.txt
 popd
 
 #Remove unneeded files
