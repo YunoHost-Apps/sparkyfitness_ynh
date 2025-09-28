@@ -66,6 +66,12 @@ pushd $install_dir/SparkyFitnessFrontend
 	ynh_hide_warnings ynh_exec_as_app npm run build
 popd
 
+pushd $install_dir/SparkyFitnessGarmin
+	ynh_exec_as_app python3 -m venv "$install_dir/venv"
+	ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install --upgrade pip
+	ynh_hide_warnings ynh_exec_as_app "$install_dir/venv/bin/pip" install --no-cache-dir -r requirements.txt
+popd
+
 #Remove unneeded files
 ynh_safe_rm "$install_dir"/.npm
 ynh_safe_rm "$install_dir"/docker
@@ -87,6 +93,9 @@ ynh_config_add_systemd
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
 
 ynh_config_add_logrotate
+touch /var/log/$app/$app.log
+touch /var/log/$app/${app}-garmin.log
+chown -R $app:$app /var/log/$app/
 
 #ynh_config_add_fail2ban --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
 

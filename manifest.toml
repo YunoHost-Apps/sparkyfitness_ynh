@@ -73,6 +73,7 @@ ram.runtime = "50M"
 
     [resources.ports]
     main.default = 3010
+    garmin.default = 3011
 
     [resources.apt]
     packages = "postgresql, postgresql-contrib"
