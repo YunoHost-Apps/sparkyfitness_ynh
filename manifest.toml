@@ -72,7 +72,7 @@ ram.runtime = "50M"
     garmin.fixed = true #for now, until issue https://github.com/CodeWithCJ/SparkyFitness/issues/174 is fixed
 
     [resources.apt]
-    packages = "postgresql, postgresql-contrib"
+    packages = "postgresql, postgresql-contrib, python, python3-venv"
 
     [resources.database]
     type = "postgresql"
