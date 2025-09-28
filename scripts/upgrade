@@ -19,6 +19,7 @@ admin_mail=$(ynh_user_get_info --username=$admin --key=mail)
 ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="stop"
+ynh_systemctl --service="$app-garmin" --action="stop"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -89,8 +90,10 @@ ynh_script_progression "Upgrading system configurations related to $app..."
 ynh_config_add_nginx
 
 ynh_config_add_systemd
+ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
+yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
@@ -105,6 +108,7 @@ chown -R $app:$app /var/log/$app/
 ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="${app}-garmin" --action="start"
 
 #=================================================
 # END OF SCRIPT

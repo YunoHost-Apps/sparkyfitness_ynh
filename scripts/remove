@@ -21,6 +21,12 @@ if ynh_hide_warnings yunohost service status "$app" >/dev/null; then
 fi
 ynh_config_remove_systemd
 
+# Remove the service from the list of services known by YunoHost (added from `yunohost service add`)
+if ynh_hide_warnings yunohost service status "$app-garmin" >/dev/null; then
+    yunohost service remove "$app-garmin"
+fi
+ynh_config_remove_systemd "${app}-garmin"
+
 ynh_config_remove_nginx
 
 #=================================================
