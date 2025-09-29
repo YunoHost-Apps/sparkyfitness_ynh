@@ -6,17 +6,12 @@ id = "sparkyfitness"
 name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
 
-version = "0.15.2.1~ynh1"
+version = "0.15.3.1~ynh1"
 
 maintainers = ["Thovi98"]
 
 [upstream]
-
-
 license = "PolyForm-Noncommercial-1.0.0" # Not exactly but the most relative
-
-
-
 admindoc = "https://codewithcj.github.io/SparkyFitness"
 code = "https://github.com/CodeWithCJ/SparkyFitness"
 
@@ -52,8 +47,8 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.15.2.1.tar.gz"
-    sha256 = "c69085c3e570c0f1d5d8da92ec20d15b8da7f1c2e796b480618e89fc316bd276"
+    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.15.3.1.tar.gz"
+    sha256 = "1a82f125496c271cd31cce81d1171b58fca8c33beb73c434b1f5cee9b83524df"
 
     autoupdate.strategy = "latest_github_release"
 
@@ -73,9 +68,10 @@ ram.runtime = "50M"
 
     [resources.ports]
     main.default = 3010
+    garmin.default = 8000
 
     [resources.apt]
-    packages = "postgresql, postgresql-contrib"
+    packages = "postgresql, postgresql-contrib, python3-venv"
 
     [resources.database]
     type = "postgresql"
