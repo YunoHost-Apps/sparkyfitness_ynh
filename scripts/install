@@ -29,6 +29,11 @@ ynh_app_setting_set --key=googleai_key --value=
 anthropic_key=""
 ynh_app_setting_set --key=anthropic_key --value=
 
+db_name_seconduser="${db_name}_seconduser"
+db_pwd_seconduser="${db_pwd}_seconduser"
+ynh_app_setting_set --key=db_name_seconduser --value=$db_name_seconduser
+ynh_app_setting_set --key=db_pwd_seconduser --value=$db_pwd_seconduser
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -54,6 +59,13 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
+#=================================================
+# PROVISION SECOND DB
+#=================================================
+
+ynh_script_progression --message="Configuring second PosqreSQL database..."
+ynh_psql_create_db "$db_name_seconduser" "$db_user_seconduser" "$db_pwd_seconduser"
 
 #=================================================
 # BUILD APP
@@ -82,7 +94,6 @@ ynh_safe_rm "$install_dir"/docker
 ynh_safe_rm "$install_dir"/.github
 ynh_safe_rm "$install_dir"/SparkyFitnessMobile
 ynh_safe_rm "$install_dir"/SparkyFitnessFrontend/node_modules
-
 
 chown -R "$app:www-data" "$install_dir"
 

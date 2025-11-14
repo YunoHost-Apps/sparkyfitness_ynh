@@ -22,6 +22,9 @@ ynh_script_progression "Restoring the PostgreSQL database..."
 
 ynh_psql_db_shell  < "./db.sql"
 
+ynh_psql_db_create_db "$db_name_seconduser" "$db_user_seconduser" "$db_pwd_seconduser"
+ynh_psql_db_create_db --user=$db_user_seconduser --password=$db_pwd_seconduser --database="$db_name_seconduser" < db_seconduser.sql
+
 #=================================================
 # RESTORE SYSTEM CONFIGURATION
 #=================================================
