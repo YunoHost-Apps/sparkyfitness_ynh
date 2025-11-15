@@ -29,6 +29,9 @@ ynh_app_setting_set --key=googleai_key --value=
 anthropic_key=""
 ynh_app_setting_set --key=anthropic_key --value=
 
+db_name_seconduser="${db_name}_seconduser"
+ynh_app_setting_set --key=db_name_seconduser --value=$db_name_seconduser
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -54,6 +57,13 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
+#=================================================
+# PROVISION SECOND DB
+#=================================================
+
+ynh_script_progression "Configuring second PosqreSQL database..."
+ynh_psql_create_db "$db_name_seconduser" "$db_user" "$db_pwd"
 
 #=================================================
 # BUILD APP
@@ -83,7 +93,6 @@ ynh_safe_rm "$install_dir"/.github
 ynh_safe_rm "$install_dir"/SparkyFitnessMobile
 ynh_safe_rm "$install_dir"/SparkyFitnessFrontend/node_modules
 
-
 chown -R "$app:www-data" "$install_dir"
 
 #=================================================
@@ -97,7 +106,7 @@ ynh_config_add_systemd
 ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
-yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app.log"
+yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log

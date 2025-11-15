@@ -40,6 +40,14 @@ ynh_config_add --template=".env" --destination="$install_dir/.env"
 chmod 400 "$install_dir/.env"
 chown "$app:$app" "$install_dir/.env"
 
+
+if ynh_app_upgrading_from_version_before 0.15.9.2~ynh1; then
+	ynh_script_progression "Configuring second PosqreSQL database..."
+	db_name_seconduser="${db_name}_seconduser"
+	ynh_app_setting_set --key=db_name_seconduser --value=$db_name_seconduser
+	ynh_psql_create_db "$db_name_seconduser" "$db_user" "$db_pwd"
+fi
+
 #=================================================
 # PREPARE A POSTGRESQL DATABASE
 #=================================================
@@ -93,7 +101,7 @@ ynh_config_add_systemd
 ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
-yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app.log"
+yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
