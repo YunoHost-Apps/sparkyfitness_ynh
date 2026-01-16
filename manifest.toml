@@ -5,6 +5,7 @@ packaging_format = 2
 id = "sparkyfitness"
 name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
+description.fr = "Suivez votre alimentation, votre forme et votre santé — au même endroit"
 
 version = "0.16.3.3~ynh1"
 
