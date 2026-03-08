@@ -121,13 +121,16 @@ ynh_config_add_nginx
 
 ynh_config_add_systemd
 ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
+ynh_config_add_systemd --service="${app}-mcp" --template="sparkyfitness-mcp.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
 yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
+yunohost service add "${app}-mcp" --description="$app MCP" --log="/var/log/$app/$app-mcp.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
 touch /var/log/$app/${app}-garmin.log
+touch /var/log/$app/${app}-mcp.log
 chown -R $app:$app /var/log/$app/
 
 # Create a dedicated Fail2Ban config
@@ -140,6 +143,7 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 ynh_systemctl --service="${app}-garmin" --action="start"
+ynh_systemctl --service="${app}-mcp" --action="start"
 
 #=================================================
 # END OF SCRIPT
