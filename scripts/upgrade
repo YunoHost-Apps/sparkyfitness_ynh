@@ -49,7 +49,7 @@ ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 if ynh_app_upgrading_from_version_before 0.16.4.9~ynh2
 then
-	second_db_name=$second_db_user
+	second_db_name=${app}_second
 	second_db_pwd=$(ynh_string_random)
 
 	ynh_psql_create_db "$second_db_name" "$db_user"
