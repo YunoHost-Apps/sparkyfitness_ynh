@@ -43,6 +43,7 @@ second_db_user=$(ynh_app_setting_get --key=second_db_user)
 
 ynh_psql_drop_db "$second_db_name"
 ynh_psql_drop_db "$second_db_user"
+ynh_psql_drop_role "$second_db_name"
 
 #=================================================
 # END OF SCRIPT
