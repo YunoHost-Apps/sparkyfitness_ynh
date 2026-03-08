@@ -85,9 +85,7 @@ pushd $install_dir/SparkyFitnessServer
 popd
 
 pushd $install_dir/SparkyFitnessMCP
-
-
-	ynh_hide_warnings ynh_exec_as_app npm ci --omit=dev
+	ynh_hide_warnings ynh_exec_as_app npm build
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
 

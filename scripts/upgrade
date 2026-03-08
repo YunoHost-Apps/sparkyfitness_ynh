@@ -85,6 +85,11 @@ pushd $install_dir/SparkyFitnessServer
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
 
+pushd $install_dir/SparkyFitnessMCP
+	ynh_hide_warnings ynh_exec_as_app npm build
+	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
+popd
+
 pushd $install_dir/SparkyFitnessFrontend
 	ynh_hide_warnings corepack enable && corepack prepare pnpm@10 --activate
 	ynh_hide_warnings ynh_exec_as_app npm install vite
