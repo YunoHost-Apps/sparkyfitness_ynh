@@ -42,13 +42,6 @@ ynh_setup_source --dest_dir="$install_dir"
 chown -R "$app:www-data" "$install_dir"
 
 #=================================================
-# APP CONFIG FILES
-#=================================================
-ynh_script_progression "Adding $app's configuration files..."
-
-ynh_config_add --template=".env" --destination="$install_dir/.env"
-
-#=================================================
 # PREPARE A POSTGRESQL DATABASE
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
@@ -80,11 +73,11 @@ ynh_psql_db_shell "$second_db_name" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_
 ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH NOSUPERUSER;"
 
 #=================================================
-# PROVISION SECOND DB
+# APP CONFIG FILES
 #=================================================
+ynh_script_progression "Adding $app's configuration files..."
 
-ynh_script_progression "Configuring second PosqreSQL database..."
-ynh_psql_create_db "$db_name_seconduser" "$db_user" "$db_pwd"
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
 #=================================================
 # BUILD APP
