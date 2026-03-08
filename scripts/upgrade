@@ -50,7 +50,7 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-ynh_psql_db_shell <<< "GRANT EXECUTE ON FUNCTION pg_stat_statements_reset TO $db_user;"
+ynh_psql_db_shell <<< "GRANT ALL ON SCHEMA public TO $db_user;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
