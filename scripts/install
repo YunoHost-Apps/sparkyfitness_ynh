@@ -59,10 +59,25 @@ ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
-ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user WITH SUPERUSER;"
-ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user CREATEROLE;"
-ynh_psql_db_shell "$db_name_second" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
+#=================================================
+# CREATE AN ADDITIONAL DATABASE
+#=================================================
+
+second_db_user=${app}_second
+second_db_name=$second_db_user
+second_db_pwd=$(ynh_string_random)
+
+ynh_psql_create_user "$second_db_user" "$second_db_pwd"
+ynh_psql_create_db "$second_db_name" "$second_db_user"
+ynh_app_setting_set --key=second_db_user --value=$second_db_user
+ynh_app_setting_set --key=second_db_name --value=$second_db_name
+ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+
+ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH SUPERUSER;"
+ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user CREATEROLE;"
+ynh_psql_db_shell "$second_db_name" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH NOSUPERUSER;"
 
 #=================================================
 # PROVISION SECOND DB

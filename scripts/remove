@@ -33,9 +33,12 @@ ynh_config_remove_nginx
 # DROP TOKENSERVER DB
 #=================================================
 ynh_script_progression "Deprovisioning Seconduser DB..."
-db_name_seconduser=$(ynh_app_setting_get --key=db_name_seconduser)
 
-ynh_psql_drop_db "$db_name_seconduser"
+second_db_name=$(ynh_app_setting_get --key=second_db_name)
+second_db_user=$(ynh_app_setting_get --key=second_db_user)
+
+ynh_psql_drop_db "$second_db_name"
+ynh_psql_drop_db "$second_db_user"
 
 #=================================================
 # END OF SCRIPT
