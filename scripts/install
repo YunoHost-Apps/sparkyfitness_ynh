@@ -85,7 +85,7 @@ pushd $install_dir/SparkyFitnessServer
 popd
 
 pushd $install_dir/SparkyFitnessMCP
-	ynh_hide_warnings ynh_exec_as_app npm install -g typescript
+	ynh_hide_warnings npm install -g typescript
 	ynh_hide_warnings ynh_exec_as_app npm run build
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
