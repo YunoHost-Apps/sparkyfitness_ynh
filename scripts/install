@@ -59,6 +59,11 @@ ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
+ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user WITH SUPERUSER;"
+ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user CREATEROLE;"
+ynh_psql_db_shell "$db_name_second" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_psql_db_shell "$db_name_second" <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
 #=================================================
 # PROVISION SECOND DB
 #=================================================
