@@ -71,11 +71,6 @@ then
 	ynh_app_setting_set --key=second_db_name --value=$second_db_name
 	ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
 
-	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH SUPERUSER;"
-	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user CREATEROLE;"
-	ynh_psql_db_shell "$second_db_name" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-	ynh_psql_db_shell <<< "GRANT EXECUTE ON FUNCTION pg_stat_statements_reset TO $second_db_user;"
-	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH NOSUPERUSER;"
 fi
 
 
