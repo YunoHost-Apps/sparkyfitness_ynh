@@ -57,7 +57,7 @@ ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 # CREATE AN ADDITIONAL DATABASE
 #=================================================
 
-second_db_name=$second_db_user
+second_db_name=${app}_second
 second_db_pwd=$(ynh_string_random)
 
 ynh_psql_create_db "$second_db_name" "$db_user"
