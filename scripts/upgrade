@@ -48,7 +48,7 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
-ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements SCHEMA public;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
@@ -72,7 +72,7 @@ then
 
 	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH SUPERUSER;"
 	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user CREATEROLE;"
-	ynh_psql_db_shell "$second_db_name" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+	ynh_psql_db_shell "$second_db_name" <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements SCHEMA public;"
 	ynh_psql_db_shell "$second_db_name" <<< "ALTER USER $second_db_user WITH NOSUPERUSER;"
 fi
 
