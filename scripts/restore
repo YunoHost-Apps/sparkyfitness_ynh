@@ -20,10 +20,12 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Restoring the PostgreSQL database..."
 
-ynh_psql_create_db "$second_db_name" "$db_user"
-ynh_psql_db_shell < ./seconddb.sql
+ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 
-ynh_psql_db_shell  < "./db.sql"
+ynh_psql_create_db "$second_db_name" "$db_user"
+ynh_psql_db_shell < "./seconddb.sql"
+
+ynh_psql_db_shell < "./db.sql"
 
 #=================================================
 # RESTORE SYSTEM CONFIGURATION
