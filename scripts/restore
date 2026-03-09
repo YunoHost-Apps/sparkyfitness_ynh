@@ -22,7 +22,7 @@ ynh_script_progression "Restoring the PostgreSQL database..."
 
 ynh_psql_db_shell  < "./db.sql"
 
-ynh_psql_create_db "$second_db_name" "$second_db_user"
+ynh_psql_create_db "$second_db_name" "$db_user"
 ynh_psql_db_shell < ./seconddb.sql
 
 #=================================================
