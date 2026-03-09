@@ -42,28 +42,34 @@ ynh_setup_source --dest_dir="$install_dir"
 chown -R "$app:www-data" "$install_dir"
 
 #=================================================
-# APP CONFIG FILES
-#=================================================
-ynh_script_progression "Adding $app's configuration files..."
-
-ynh_config_add --template=".env" --destination="$install_dir/.env"
-
-#=================================================
 # PREPARE A POSTGRESQL DATABASE
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
+ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_psql_db_shell <<< "GRANT ALL ON SCHEMA public TO $db_user;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
-# PROVISION SECOND DB
+# CREATE AN ADDITIONAL DATABASE
 #=================================================
 
-ynh_script_progression "Configuring second PosqreSQL database..."
-ynh_psql_create_db "$db_name_seconduser" "$db_user" "$db_pwd"
+second_db_name=${app}_second
+second_db_pwd=$(ynh_string_random)
+
+ynh_psql_create_db "$second_db_name" "$db_user"
+ynh_app_setting_set --key=second_db_name --value=$second_db_name
+ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+
+#=================================================
+# APP CONFIG FILES
+#=================================================
+ynh_script_progression "Adding $app's configuration files..."
+
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
 #=================================================
 # BUILD APP
@@ -72,6 +78,13 @@ ynh_script_progression "Building app..."
 
 pushd $install_dir/SparkyFitnessServer
 	ynh_hide_warnings ynh_exec_as_app npm ci --omit=dev
+	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
+popd
+
+pushd $install_dir/SparkyFitnessMCP
+	ynh_hide_warnings npm install -g typescript
+	ynh_hide_warnings npm install @types/node --save-dev
+	ynh_hide_warnings ynh_exec_as_app npm run build
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
 
@@ -105,13 +118,16 @@ ynh_config_add_nginx
 
 ynh_config_add_systemd
 ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
+ynh_config_add_systemd --service="${app}-mcp" --template="sparkyfitness-mcp.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
 yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
+yunohost service add "${app}-mcp" --description="$app MCP" --log="/var/log/$app/$app-mcp.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
 touch /var/log/$app/${app}-garmin.log
+touch /var/log/$app/${app}-mcp.log
 chown -R $app:$app /var/log/$app/
 
 # Create a dedicated Fail2Ban config
@@ -124,6 +140,7 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 ynh_systemctl --service="${app}-garmin" --action="start"
+ynh_systemctl --service="${app}-mcp" --action="start"
 
 #=================================================
 # END OF SCRIPT
