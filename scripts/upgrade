@@ -85,10 +85,10 @@ pushd $install_dir/SparkyFitnessMCP
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
 
-pushd $install_dir/SparkyFitnessFrontend
+pushd $install_dir/
 	ynh_hide_warnings corepack enable && corepack prepare pnpm@10 --activate
-	ynh_hide_warnings ynh_exec_as_app npm install vite
-	ynh_hide_warnings ynh_exec_as_app npm run build
+	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
+	ynh_hide_warnings ynh_exec_as_app pnpm --filter sparkyfitnessfrontend run build
 popd
 
 pushd $install_dir/SparkyFitnessGarmin
