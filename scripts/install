@@ -90,8 +90,8 @@ popd
 
 pushd $install_dir/SparkyFitnessFrontend
 	ynh_hide_warnings corepack enable && corepack prepare pnpm@10 --activate
-	ynh_hide_warnings ynh_exec_as_app npm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app npm run build
+	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
+	ynh_hide_warnings ynh_exec_as_app pnpm run build
 popd
 
 pushd $install_dir/SparkyFitnessGarmin
