@@ -49,9 +49,10 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "pgcrypto";"
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-ynh_psql_db_shell <<< "GRANT EXECUTE ON FUNCTION pg_stat_statements_reset TO $db_user;"
-ynh_psql_db_shell <<< "GRANT ALL ON SCHEMA public TO $db_user;"
+ynh_psql_db_shell <<< "GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $db_user WITH GRANT OPTION;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
@@ -61,7 +62,6 @@ ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 second_db_name=${app}_second
 second_db_pwd=$(ynh_string_random)
 
-ynh_psql_create_db "$second_db_name" "$db_user" "$second_db_pwd"
 ynh_app_setting_set --key=second_db_name --value=$second_db_name
 ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
 
