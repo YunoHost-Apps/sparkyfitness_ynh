@@ -104,6 +104,7 @@ ynh_safe_rm "$install_dir"/docker
 ynh_safe_rm "$install_dir"/.github
 ynh_safe_rm "$install_dir"/SparkyFitnessMobile
 ynh_safe_rm "$install_dir"/node_modules
+ynh_safe_rm "$install_dir"/.local
 
 chown -R "$app:www-data" "$install_dir"
 
