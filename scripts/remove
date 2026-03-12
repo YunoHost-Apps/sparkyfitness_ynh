@@ -33,8 +33,6 @@ ynh_config_remove_systemd "${app}-mcp"
 
 ynh_config_remove_nginx
 
-ynh_psql_drop_db "$second_db_name"
-
 #=================================================
 # END OF SCRIPT
 #=================================================
