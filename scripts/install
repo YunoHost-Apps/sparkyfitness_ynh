@@ -61,7 +61,7 @@ ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 second_db_name=${app}_second
 second_db_pwd=$(ynh_string_random)
 
-ynh_psql_create_db "$second_db_name" "$db_user"
+ynh_psql_create_db "$second_db_name" "$db_user" "$second_db_pwd"
 ynh_app_setting_set --key=second_db_name --value=$second_db_name
 ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
 
