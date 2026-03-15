@@ -79,7 +79,7 @@ pushd $install_dir/
 	ynh_hide_warnings corepack enable && corepack prepare pnpm@10 --activate
 	# Backend/server
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app pnpm --filter=sparkyfitnessserver deploy --legacy /deploy
+	ynh_hide_warnings ynh_exec_as_app pnpm --filter=sparkyfitnessserver deploy
 	# Frontend
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app pnpm --filter sparkyfitnessfrontend run build
