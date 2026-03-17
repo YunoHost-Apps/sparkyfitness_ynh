@@ -48,8 +48,8 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/Thovi98/SparkyFitness/releases/download/test6/SparkyFitness.tar.gz"
-    sha256 = "e46f0ca133bff31345aac288c72f5409cc13ef5f5864b1cc86edd7dc6fe672df"
+    url = "https://github.com/Thovi98/SparkyFitness/releases/download/test10/SparkyFitness.tar.gz"
+    sha256 = "0ab860c3f9eb81881c26685324f21fd995f2e8b6fbda153725a0b08946ac6a0a"
 
     autoupdate.strategy = "latest_github_release"
 
