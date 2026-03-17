@@ -38,7 +38,8 @@ ynh_app_setting_set --key=db_name_seconduser --value=$db_name_seconduser
 ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir"
-ynh_setup_source --dest_dir="$install_dir/git" --source_id="git"
+ynh_setup_source --dest_dir="$install_dir/temp" --source_id="temp"
+mv "$install_dir/temp/SparkyFitnessGarmin" "$install_dir/SparkyFitness_Garmin"
 
 chown -R "$app:www-data" "$install_dir"
 
@@ -50,9 +51,9 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
-ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
-ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
-ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $db_user WITH GRANT OPTION;"
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
@@ -78,26 +79,15 @@ ynh_config_add --template=".env" --destination="$install_dir/.env"
 #=================================================
 ynh_script_progression "Building app..."
 
-pushd $install_dir/git/SparkyFitnessMCP
-	ynh_hide_warnings npm install -g typescript
-	ynh_hide_warnings npm install @types/node --save-dev
-	ynh_hide_warnings ynh_exec_as_app npm run build
-	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
-popd
-
-pushd $install_dir/git/SparkyFitnessGarmin
+pushd $install_dir/SparkyFitnessGarmin
 	ynh_exec_as_app python3 -m venv "$install_dir/SparkyFitnessGarmin/venv"
 	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --upgrade pip
 	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --no-cache-dir -r requirements.txt
 popd
 
 #Remove unneeded files
-#ynh_safe_rm "$install_dir"/.cache
-#ynh_safe_rm "$install_dir"/docker
-#ynh_safe_rm "$install_dir"/.github
-#ynh_safe_rm "$install_dir"/SparkyFitnessMobile
-#ynh_safe_rm "$install_dir"/node_modules
-#ynh_safe_rm "$install_dir"/.local
+ynh_safe_rm "$install_dir"/.cache
+ynh_safe_rm "$install_dir"/temp
 
 chown -R "$app:www-data" "$install_dir"
 
@@ -110,16 +100,13 @@ ynh_config_add_nginx
 
 ynh_config_add_systemd
 ynh_config_add_systemd --service="${app}-garmin" --template="sparkyfitness-garmin.service"
-ynh_config_add_systemd --service="${app}-mcp" --template="sparkyfitness-mcp.service"
 
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
 yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
-yunohost service add "${app}-mcp" --description="$app MCP" --log="/var/log/$app/$app-mcp.log"
 
 ynh_config_add_logrotate
 touch /var/log/$app/$app.log
 touch /var/log/$app/${app}-garmin.log
-touch /var/log/$app/${app}-mcp.log
 chown -R $app:$app /var/log/$app/
 
 # Create a dedicated Fail2Ban config
@@ -132,7 +119,6 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 ynh_systemctl --service="${app}-garmin" --action="start"
-ynh_systemctl --service="${app}-mcp" --action="start"
 
 #=================================================
 # END OF SCRIPT
