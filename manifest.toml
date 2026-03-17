@@ -48,14 +48,8 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.16.5.2.tar.gz"
-    sha256 = "92aa049119016f2ae823ef69c6e67ba74ca3eb4ab704764fd86bf919e3296cee"
-
-    autoupdate.strategy = "latest_github_release"
-
-    [resources.sources.frontend]
-    url = "https://github.com/Thovi98/SparkyFitness/releases/download/test1/sparkyfitness-frontend-dist.tar.gz"
-    sha256 = "54b0e4514cf7491d20a5263e483a85076f6d49122a707bdb2006ddf43364476c"
+    url = "https://github.com/Thovi98/SparkyFitness/releases/download/test4/SparkyFitness.tar.gz"
+    sha256 = "d43f586e0a6b25acec891776643f43ce37666cd4ee628c6c1c5dee528341eb04"
 
     autoupdate.strategy = "latest_github_release"
 
