@@ -53,6 +53,10 @@ ram.runtime = "50M"
 
     autoupdate.strategy = "latest_github_release"
 
+    [resources.sources.git]
+    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.16.5.2.tar.gz"
+    sha256 = "92aa049119016f2ae823ef69c6e67ba74ca3eb4ab704764fd86bf919e3296cee"
+
     [resources.system_user]
     allow_email = true
 
