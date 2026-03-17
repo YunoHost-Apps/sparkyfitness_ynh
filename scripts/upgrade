@@ -80,11 +80,9 @@ pushd $install_dir/
 	# Backend/server
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
 	ynh_hide_warnings ynh_exec_as_app pnpm --filter=sparkyfitnessserver deploy --legacy $install_dir/SparkyFitnessServer/deploy
-	# Frontend
-	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
-	ynh_hide_warnings ynh_exec_as_app pnpm --filter sparkyfitnessfrontend run build
-	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
+
+ynh_setup_source --dest_dir="$install_dir/SparkyFitnessFrontend" --source_id="frontend"
 
 pushd $install_dir/SparkyFitnessMCP
 	ynh_hide_warnings npm install -g typescript
