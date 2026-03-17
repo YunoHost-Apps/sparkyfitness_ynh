@@ -38,6 +38,7 @@ ynh_app_setting_set --key=db_name_seconduser --value=$db_name_seconduser
 ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir"
+ynh_setup_source --dest_dir="$install_dir/git" --source_id="git"
 
 chown -R "$app:www-data" "$install_dir"
 
@@ -77,14 +78,14 @@ ynh_config_add --template=".env" --destination="$install_dir/.env"
 #=================================================
 ynh_script_progression "Building app..."
 
-pushd $install_dir/SparkyFitnessMCP
+pushd $install_dir/git/SparkyFitnessMCP
 	ynh_hide_warnings npm install -g typescript
 	ynh_hide_warnings npm install @types/node --save-dev
 	ynh_hide_warnings ynh_exec_as_app npm run build
 	ynh_hide_warnings ynh_exec_as_app npm cache clean --force
 popd
 
-pushd $install_dir/SparkyFitnessGarmin
+pushd $install_dir/git/SparkyFitnessGarmin
 	ynh_exec_as_app python3 -m venv "$install_dir/SparkyFitnessGarmin/venv"
 	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --upgrade pip
 	ynh_hide_warnings ynh_exec_as_app "$install_dir/SparkyFitnessGarmin/venv/bin/pip" install --no-cache-dir -r requirements.txt
