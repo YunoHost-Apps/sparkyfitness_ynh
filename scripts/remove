@@ -26,11 +26,6 @@ if ynh_hide_warnings yunohost service status "$app-garmin" >/dev/null; then
 fi
 ynh_config_remove_systemd "${app}-garmin"
 
-if ynh_hide_warnings yunohost service status "$app-mcp" >/dev/null; then
-    yunohost service remove "$app-mcp"
-fi
-ynh_config_remove_systemd "${app}-mcp"
-
 ynh_config_remove_nginx
 
 #=================================================
