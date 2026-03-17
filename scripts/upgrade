@@ -38,7 +38,7 @@ ynh_script_progression "Upgrading source files..."
 
 ynh_setup_source --dest_dir="$install_dir" --full_replace
 ynh_setup_source --dest_dir="$install_dir/temp" --source_id="temp"
-mv "$install_dir/temp/SparkyFitnessGarmin" "$install_dir/SparkyFitness_Garmin"
+mv "$install_dir/temp/SparkyFitnessGarmin" "$install_dir/SparkyFitnessGarmin"
 
 chown -R "$app:www-data" "$install_dir"
 
