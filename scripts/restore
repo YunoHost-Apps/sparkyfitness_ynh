@@ -35,12 +35,8 @@ systemctl enable "$app.service" --quiet
 ynh_restore "/etc/systemd/system/$app-garmin.service"
 systemctl enable "$app-garmin.service" --quiet
 
-ynh_restore "/etc/systemd/system/$app-mcp.service"
-systemctl enable "$app-mcp.service" --quiet
-
 yunohost service add "$app" --description=""$app"’s service" --log="/var/log/$app/$app.log"
 yunohost service add "${app}-garmin" --description="Garmin integration for $app" --log="/var/log/$app/$app-garmin.log"
-yunohost service add "${app}-mcp" --description="$app MCP" --log="/var/log/$app/$app-mcp.log"
 
 ynh_restore "/etc/logrotate.d/$app"
 
@@ -61,7 +57,6 @@ ynh_script_progression "Reloading NGINX web server and $app's service..."
 
 ynh_systemctl --service="$app" --action="start"
 ynh_systemctl --service="${app}-garmin" --action="start"
-ynh_systemctl --service="${app}-mcp" --action="start"
 
 ynh_systemctl --service=nginx --action=reload
 
