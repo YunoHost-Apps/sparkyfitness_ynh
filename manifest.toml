@@ -49,7 +49,7 @@ ram.runtime = "50M"
 
     [resources.sources.main]
     url = "https://github.com/CodeWithCJ/SparkyFitness/releases/download/v0.16.5.5/SparkyFitness.tar.gz"
-    sha256 = "a4ee092553b26ca5bbc5e102e23abfcb2148c8f2f91daa245f44a10ba376b2e6"
+    sha256 = "ab23635f31576da28e6afeb8bd18450bd9251fb16fbd8137c25a39cc800c56a3"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = ".*.tar.gz"
