@@ -7,7 +7,7 @@ name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
 description.fr = "Suivez votre alimentation, votre forme et votre santé — au même endroit"
 
-version = "0.16.5.5~ynh1"
+version = "0.16.5.6~ynh1"
 
 maintainers = ["Thovi98"]
 
@@ -48,15 +48,15 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/CodeWithCJ/SparkyFitness/releases/download/v0.16.5.5/SparkyFitness.tar.gz"
-    sha256 = "ab23635f31576da28e6afeb8bd18450bd9251fb16fbd8137c25a39cc800c56a3"
+    url = "https://github.com/CodeWithCJ/SparkyFitness/releases/download/v0.16.5.6/SparkyFitness.tar.gz"
+    sha256 = "34491dc0189beb2e09de6f1ca1ad62d27ad2f448e04eb613fe4a896345333dd5"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = ".*.tar.gz"
 
     [resources.sources.temp]
-    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.16.5.5.tar.gz"
-    sha256 = "4ea80ebb028a6c2bd4e7fa5eec01c09b17477f33d5688b790b3849a69378a5cc"
+    url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v0.16.5.6.tar.gz"
+    sha256 = "96ff4d151edf07df4edcf86862750bad829e99d8c0a922f26cc952e735823cb9"
 
     autoupdate.strategy = "latest_github_release"
 
