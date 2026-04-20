@@ -7,7 +7,7 @@ name = "SparkyFitness"
 description.en = "Track food, fitness, water, and health — together. "
 description.fr = "Suivez votre alimentation, votre forme et votre santé — au même endroit"
 
-version = "0.16.5.8~ynh1"
+version = "0.16.5.8~ynh2"
 
 maintainers = ["Thovi98"]
 

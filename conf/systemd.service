@@ -6,10 +6,10 @@ After=network.target
 Type=simple
 User=__APP__
 Group=__APP__
-WorkingDirectory=__INSTALL_DIR__/backend
+WorkingDirectory=__INSTALL_DIR__
 EnvironmentFile=__INSTALL_DIR__/.env
 Environment="PATH=__PATH_WITH_NODEJS__"
-ExecStart=__NODEJS_DIR__/npx tsx SparkyFitnessServer.js
+ExecStart=__NODEJS_DIR__/npx tsx backend/SparkyFitnessServer.ts
 StandardOutput=append:/var/log/__APP__/__APP__.log
 StandardError=inherit
 Restart=on-failure
