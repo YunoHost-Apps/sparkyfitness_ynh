@@ -15,6 +15,13 @@ ynh_print_info "Declaring files to be backed up..."
 ynh_backup "$install_dir"
 
 #=================================================
+# BACKUP THE DATA DIR
+#=================================================
+
+# NB: /var/log is not backuped during safety-backup-before-upgrades
+ynh_backup "$data_dir"
+
+#=================================================
 # BACKUP SYSTEM CONFIGURATION
 #=================================================
 
