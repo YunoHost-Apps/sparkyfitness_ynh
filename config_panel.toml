@@ -6,7 +6,6 @@
 
 version = "1.0"
 
-
 [main]
 name.en = "Configuration options"
 name.fr = "Options de configuration"
