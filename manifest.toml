@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "sparkyfitness"
 name = "SparkyFitness"
-description.en = "Track food, fitness, water, and health — together. "
-description.fr = "Suivez votre alimentation, votre forme et votre santé — au même endroit"
+description.en = "Track food, fitness, water, and health"
+description.fr = "Suivez votre alimentation, votre forme et votre santé"
 
 version = "1.8.0~ynh1"
 
@@ -17,13 +17,12 @@ admindoc = "https://codewithcj.github.io/SparkyFitness"
 code = "https://github.com/CodeWithCJ/SparkyFitness"
 
 [integration]
-yunohost = ">= 12.1.38"
+yunohost = ">= 12.1.40"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
 
 ldap = false
-
 sso = false
 
 disk = "50M"
@@ -31,17 +30,15 @@ ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
+
     [install.domain]
     type = "domain"
 
     [install.init_main_permission]
-    # this is a generic question - ask strings are automatically handled by YunoHost's core
-    # This won't be saved as setting and will instead be used to initialize the SSOwat permission
     type = "group"
     default = "visitors"
 
     [install.admin]
-    # this is a generic question - ask strings are automatically handled by YunoHost's core
     type = "user"
 
 [resources]
@@ -50,14 +47,12 @@ ram.runtime = "50M"
     [resources.sources.main]
     url = "https://github.com/CodeWithCJ/SparkyFitness/releases/download/v1.8.0/SparkyFitness.tar.gz"
     sha256 = "457252b0863ddb0ba0dbc60c313d3e49895ad9654885b98ac0c9c9807400e3c8"
-
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = ".*.tar.gz"
 
     [resources.sources.temp]
     url = "https://github.com/CodeWithCJ/SparkyFitness/archive/refs/tags/v1.8.0.tar.gz"
     sha256 = "873351287462028941cfa967a63b9f18a3315936ca4913ce2566c774593b67bf"
-
     autoupdate.strategy = "latest_github_release"
 
     [resources.system_user]
