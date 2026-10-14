@@ -38,6 +38,13 @@ if ynh_app_upgrading_from_version_before 0.16.8~ynh2; then
 
 	ynh_app_setting_set --key=sparky_app_user --value=$sparky_app_user
 	ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
+
+	ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
+	ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
+	ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+	ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+	ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
+	ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 fi
 
 #=================================================
@@ -61,8 +68,7 @@ ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-os
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
-ynh_psql_db_shell <<< "CREATE USER IF NOT EXISTS $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
-ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -116,6 +122,9 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
+
+#Now that the service has started, we can remove superuser for the db
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # END OF SCRIPT

@@ -34,8 +34,7 @@ ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-os
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
-ynh_psql_db_shell <<< "CREATE USER IF NOT EXISTS $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
-ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
 
 #=================================================
 # RESTORE SYSTEM CONFIGURATION
@@ -70,6 +69,9 @@ ynh_systemctl --service="$app" --action="start" --wait_until="View API documenta
 ynh_systemctl --service="${app}-garmin" --action="start"
 
 ynh_systemctl --service=nginx --action=reload
+
+#Now that the service has started, we can remove superuser for the db
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # END OF SCRIPT
