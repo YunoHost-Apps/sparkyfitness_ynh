@@ -119,7 +119,7 @@ chown -R $app:$app /var/log/$app/
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
 
 #=================================================

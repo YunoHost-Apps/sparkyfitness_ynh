@@ -60,7 +60,6 @@ ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
 ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
-#ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # APP CONFIG FILES
@@ -109,8 +108,14 @@ chown -R $app:$app /var/log/$app/
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
+
+
+#Now that the service has started, we can remove superuser for the db
+
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
 
 #=================================================
 # END OF SCRIPT
