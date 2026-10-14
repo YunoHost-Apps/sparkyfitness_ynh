@@ -51,9 +51,9 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 sparky_app_user=${app}_app
 sparky_app_pwd=$(ynh_string_random)
 
+ynh_app_setting_set --key=sparky_app_user --value=$sparky_app_user
 ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
 
-#Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"

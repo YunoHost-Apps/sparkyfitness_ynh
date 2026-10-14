@@ -31,6 +31,15 @@ then
 	ynh_config_remove_systemd "${app}-mcp"
 fi
 
+if ynh_app_upgrading_from_version_before 0.16.8~ynh2; then
+	ynh_script_progression "Configuring second PostgreSQL database..."
+	sparky_app_user=${app}_app
+	sparky_app_pwd=$(ynh_string_random)
+
+	ynh_app_setting_set --key=sparky_app_user --value=$sparky_app_user
+	ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
+fi
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -47,27 +56,12 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
-#Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
-ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-ynh_psql_db_shell <<< "GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $db_user WITH GRANT OPTION;"
-ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
-
-#=================================================
-# CREATE AN ADDITIONAL DATABASE
-#=================================================
-
-if ynh_app_upgrading_from_version_before 0.16.4.9~ynh2
-then
-	second_db_name=${app}_second
-	second_db_pwd=$(ynh_string_random)
-
-	ynh_app_setting_set --key=second_db_name --value=$second_db_name
-	ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
-fi
+ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
+ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
 
 #=================================================
 # UPDATE A CONFIG FILE
