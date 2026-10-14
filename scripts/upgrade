@@ -44,6 +44,7 @@ if ynh_app_upgrading_from_version_before 0.16.8~ynh2; then
 	ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 	ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 	ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
+	ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
 	ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 fi
 
@@ -68,7 +69,7 @@ ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-os
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
-ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
+
 
 #=================================================
 # UPDATE A CONFIG FILE
