@@ -117,8 +117,7 @@ ynh_systemctl --service="${app}-garmin" --action="start"
 #=================================================
 # Now that the service has started, there should no need for superuser rights for the db
 
-sleep 15
-ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+#ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # END OF SCRIPT
