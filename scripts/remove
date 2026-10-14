@@ -32,7 +32,7 @@ ynh_config_remove_nginx
 #=================================================
 ynh_script_progression "Deprovisioning TokenServer DB..."
 
-ynh_psql_drop_db $sparky_app_user
+ynh_psql_drop_db ${sparky}_app_user
 
 
 #=================================================

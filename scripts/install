@@ -48,7 +48,7 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
-sparky_app_user=$app_app
+sparky_app_user=${app}_app
 sparky_app_pwd=$(ynh_string_random)
 
 ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
