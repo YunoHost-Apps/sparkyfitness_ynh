@@ -50,8 +50,7 @@ ynh_script_progression "Configuring the PostgreSQL database..."
 
 sparky_app_pwd=$(ynh_string_random)
 
-ynh_app_setting_set --key=second_db_name --value=$second_db_name
-ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
 
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
