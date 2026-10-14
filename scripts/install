@@ -113,7 +113,6 @@ ynh_systemctl --service="${app}-garmin" --action="start"
 
 
 #Now that the service has started, we can remove superuser for the db
-
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 
