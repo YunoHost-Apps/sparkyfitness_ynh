@@ -48,18 +48,19 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
+sparky_app_user=$app_app
 sparky_app_pwd=$(ynh_string_random)
 
 ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
 
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
-#ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
-ynh_psql_db_shell <<< "CREATE USER sparky_app WITH PASSWORD '$sparky_app_pwd';"
+ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # APP CONFIG FILES
@@ -110,15 +111,6 @@ ynh_script_progression "Starting $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="start"
 ynh_systemctl --service="${app}-garmin" --action="start"
-
-
-
-#=================================================
-# FINAL STEP FOR POSTGRESQL DATABASE
-#=================================================
-# Now that the service has started, there should no need for superuser rights for the db
-
-#ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # END OF SCRIPT
