@@ -48,23 +48,19 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
+sparky_app_pwd=$(ynh_string_random)
+
+ynh_app_setting_set --key=second_db_name --value=$second_db_name
+ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+
 #Create postgis extension
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
-ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
 ynh_psql_db_shell <<< "GRANT ALL ON SCHEMA public TO $db_user;"
-
-#=================================================
-# CREATE AN ADDITIONAL DATABASE
-#=================================================
-
-second_db_name=${app}_second
-second_db_pwd=$(ynh_string_random)
-
-ynh_app_setting_set --key=second_db_name --value=$second_db_name
-ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+ynh_psql_db_shell <<< "CREATE USER sparky_app WITH PASSWORD $sparky_app_pwd;"
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # APP CONFIG FILES
