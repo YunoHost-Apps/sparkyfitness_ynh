@@ -48,24 +48,18 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression "Configuring the PostgreSQL database..."
 
-#Create postgis extension
+sparky_app_user=${app}_app
+sparky_app_pwd=$(ynh_string_random)
+
+ynh_app_setting_set --key=sparky_app_user --value=$sparky_app_user
+ynh_app_setting_set --key=sparky_app_pwd --value=$sparky_app_pwd
+
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
-ynh_psql_db_shell <<< "ALTER USER $db_user CREATEROLE;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
-ynh_psql_db_shell <<< "GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO $db_user WITH GRANT OPTION;"
-ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
-
-#=================================================
-# CREATE AN ADDITIONAL DATABASE
-#=================================================
-
-second_db_name=${app}_second
-second_db_pwd=$(ynh_string_random)
-
-ynh_app_setting_set --key=second_db_name --value=$second_db_name
-ynh_app_setting_set --key=second_db_pwd --value=$second_db_pwd
+ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
+ynh_psql_db_shell <<< "CREATE USER $sparky_app_user WITH PASSWORD '$sparky_app_pwd';"
 
 #=================================================
 # APP CONFIG FILES
@@ -109,16 +103,19 @@ touch /var/log/$app/$app.log
 touch /var/log/$app/${app}-garmin.log
 chown -R $app:$app /var/log/$app/
 
-# Create a dedicated Fail2Ban config
-#ynh_config_add_fail2ban --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
-
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
+
+
+sleep 10
+#Now that the service has started, we can remove superuser for the db
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+
 
 #=================================================
 # END OF SCRIPT

@@ -8,9 +8,9 @@ It shall NOT be edited by hand.
   SparkyFitness, packaged for YunoHost
 </h1>
 
-Track food, fitness, water, and health — together. 
+Track food, fitness, water, and health
 
-[![Version: 0.16.8~ynh1](https://img.shields.io/badge/Version-0.16.8~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/sparkyfitness/)
+[![Version: 0.16.8~ynh2](https://img.shields.io/badge/Version-0.16.8~ynh2-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/sparkyfitness/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/sparkyfitness"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-## this script is only run if actual change to domain/path is detected, if you're here either $domain or $path changed
-## new location is available via $domain and $path (or $new_domain and $new_path variables if you want to be explicit)
-## old values are available via, you guessed it, $old_domain and $old_path
-
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
@@ -26,6 +22,18 @@ ynh_systemctl --service="$app" --action="stop"
 ynh_systemctl --service="$app-garmin" --action="stop"
 
 #=================================================
+# PREPARE A POSTGRESQL DATABASE
+#=================================================
+ynh_script_progression "Configuring the PostgreSQL database..."
+
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS "uuid-ossp";"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+ynh_hide_warnings ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+ynh_psql_db_shell <<< "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO $db_user;"
+
+
+#=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
 ynh_script_progression "Updating NGINX web server configuration..."
@@ -46,8 +54,12 @@ ynh_config_add --template=".env" --destination="$install_dir/.env"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
+
+sleep 10
+#Now that the service has started, we can remove superuser for the db
+ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # END OF SCRIPT
