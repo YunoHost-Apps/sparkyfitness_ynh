@@ -124,6 +124,7 @@ ynh_script_progression "Starting $app's systemd service..."
 ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
 
+sleep 10
 #Now that the service has started, we can remove superuser for the db
 ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
 
