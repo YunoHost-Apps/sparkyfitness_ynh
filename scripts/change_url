@@ -42,7 +42,7 @@ ynh_config_add --template=".env" --destination="$install_dir/.env"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="View API documentation at: /api/api-docs/swagger"
 ynh_systemctl --service="${app}-garmin" --action="start"
 
 #=================================================
